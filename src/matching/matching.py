@@ -33,14 +33,16 @@ class Matching():
             mp_pose.PoseLandmark.RIGHT_FOOT_INDEX,
         ]
         self.pose_extractor = PoseExtractor()
-        self.standard = self.kp_reading(standard_source)
+        self.standard = self.kp_load(standard_source)
 
-    def match(self, destinate):
+    def match(self, destinate: str):
         # TODO: this function is to be extended in the future development. For now is just calculating the L2 loss
         '''
         compare the poses in keyframes of standard video with learner's video
         calculate the loss
         '''
+        self.learner = self.kp_load(destinate)
+
         pass
 
     def single_match(self, frame) -> float:
@@ -55,7 +57,7 @@ class Matching():
         get all the keypoints from a source
         '''
         # TODO: the Kalman Filter could be added here
-        self.pose_extractor.set_name(source)
+        self.pose_extractor.set_source(source)
         kp_list = []
         for frame in self.pose_extractor.extract():
             kp_frame_list = []
