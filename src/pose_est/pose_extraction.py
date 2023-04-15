@@ -8,13 +8,14 @@ mp_pose = mp.solutions.pose
 
 # extract the poses from the video
 class PoseExtracter():
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str) -> List:
         # TODO input data type checking
         self.name = name
   
     def video_extract(self):
         # For webcam input:
         cap = cv2.VideoCapture(self.name)
+        landmarks = []
         with mp_pose.Pose(
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5) as pose:
@@ -30,6 +31,7 @@ class PoseExtracter():
                 image.flags.writeable = False
                 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                 results = pose.process(image)
+                landmarks.append(results)
 
                 # Draw the pose annotation on the image.
                 image.flags.writeable = True
@@ -44,8 +46,9 @@ class PoseExtracter():
                 if cv2.waitKey(5) & 0xFF == 27:
                     break
         cap.release()
-        return results
+        return landmarks
 
+    # TODO this image extraction is not tested yet. test it
     def image_extract(self) -> None:
       # For static images:
         IMAGE_FILES = []
@@ -91,7 +94,8 @@ class PoseExtracter():
 def main():
     pose_extract = PoseExtracter('../../data/standard/standard.mp4')
     results = pose_extract.video_extract()
-    print(results)
+    # print(results.pose_landmarks)
+    print(results[0].pose_world_landmarks)
 
 if __name__ == '__main__':
     main()
