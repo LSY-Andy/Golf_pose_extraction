@@ -1,4 +1,4 @@
-from pose_est.pose_extraction import PoseExtractor
+from pose_extraction import PoseExtractor
 from typing import List
 import mediapipe as mp
 import numpy as np
@@ -42,15 +42,26 @@ class Matching():
         calculate the loss
         '''
         self.learner = self.kp_load(destinate)
+        losses = []
+        for keyframe in self.standard:
+            loss = float('inf')
+            for frame in self.learner:
+                loss = min(loss, self.single_match(keyframe, frame))
+            losses.append(loss)
+        for idx in range(len(losses)):
+            print(f'the {idx+1}th keyfram has loss {losses[idx]}')
 
-        pass
-
-    def single_match(self, frame) -> float:
+    def single_match(self, source, dest) -> float:
         '''
         match the exact frame of coach pose and learner pose
         return: Loss between two frames
         '''
-        pass
+        loss = 0
+        for src, dst in zip(source, dest):
+            l2 = np.sum(np.power((src - dst), 2))
+            l2_norm = np.sqrt(l2)
+            loss += l2_norm
+        return loss
 
     def kp_load(self, source: str) -> List:
         '''
@@ -62,8 +73,18 @@ class Matching():
         for frame in self.pose_extractor.extract():
             kp_frame_list = []
             for kp in self.keypoints:
-                kp_frame_list.append(np.array([frame.landmark[kp].x,
-                                               frame.landmark[kp].y,
-                                               frame.landmark[kp].z]))
+                kp_frame_list.append(np.array([frame.pose_world_landmarks.landmark[kp].x,
+                                               frame.pose_world_landmarks.landmark[kp].y,
+                                               frame.pose_world_landmarks.landmark[kp].z]))
             kp_list.append(kp_frame_list)
         return kp_list
+
+def main():
+    src = '../data/standard/'
+    dst = '../data/practice_case/practice_1.mp4'
+
+    matcher = Matching(src)
+    matcher.match(dst)
+
+if __name__ == '__main__':
+    main()
