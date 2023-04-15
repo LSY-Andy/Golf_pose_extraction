@@ -1,27 +1,28 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-from typing import List
+import os
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
+
 
 class PoseExtractor():
     '''
     An extractor to read from a source and get all the pose estimations
     '''
 
-    def __init__(self, name: str = '') -> None:
-        self.set_name(name)
+    def __init__(self, source: str = '') -> None:
+        self.set_source(source)
 
-    def set_name(self, name: str) -> None:
+    def set_source(self, source: str) -> None:
         # TODO input data type checking
-        self.name = name
+        self.source = source
 
     def video_extract(self):
         # For webcam input:
         # TODO: check the validation of the path
-        cap = cv2.VideoCapture(self.name)
+        cap = cv2.VideoCapture(self.source)
         landmarks = []
         with mp_pose.Pose(
                 min_detection_confidence=0.5,
@@ -59,7 +60,16 @@ class PoseExtractor():
     def image_extract(self) -> None:
         # For static images:
         # TODO: check the validation of the image file paths
+        # TODO: extend the code to more types than jpg
         IMAGE_FILES = []
+
+        # Get all files and folders within the specified folder
+        all_items = os.listdir(self.source)
+
+        # Filter only the JPEG files
+        IMAGE_FILES.extend(
+            [self.source + file for file in all_items if file.lower().endswith(".jpg")])
+
         BG_COLOR = (192, 192, 192)  # gray
         with mp_pose.Pose(
                 static_image_mode=True,
@@ -68,17 +78,11 @@ class PoseExtractor():
                 min_detection_confidence=0.5) as pose:
             for idx, file in enumerate(IMAGE_FILES):
                 image = cv2.imread(file)
-                image_height, image_width, _ = image.shape
                 # Convert the BGR image to RGB before processing.
                 results = pose.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
                 if not results.pose_landmarks:
                     continue
-                print(
-                    f'Nose coordinates: ('
-                    f'{results.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE].x * image_width}, '
-                    f'{results.pose_landmarks.landmark[mp_pose.PoseLandmark.NOSE].y * image_height})'
-                )
 
                 annotated_image = image.copy()
                 # Draw segmentation on the image.
@@ -96,15 +100,25 @@ class PoseExtractor():
                     results.pose_landmarks,
                     mp_pose.POSE_CONNECTIONS,
                     landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
-                cv2.imwrite('/tmp/annotated_image' +
+                cv2.imwrite(self.source + '../results/' +
                             str(idx) + '.png', annotated_image)
                 # Plot pose world landmarks.
                 mp_drawing.plot_landmarks(
                     results.pose_world_landmarks, mp_pose.POSE_CONNECTIONS)
 
     def extract(self):
-        ext = self.name.split('.')[-1]
+        # TODO: the return type for both video_extract and image_extract are currently list(list(np.ndarray)) which is quite stupid. Create some new self defined datatypes in util and use them instead
+        ext = self.source.split('.')[-1]
         if ext == 'mp4':
             self.video_extract()
         else:
             self.image_extract()
+
+
+def main():
+    extractor = PoseExtractor('../../data/standard/')
+    extractor.extract()
+
+
+if __name__ == '__main__':
+    main()
