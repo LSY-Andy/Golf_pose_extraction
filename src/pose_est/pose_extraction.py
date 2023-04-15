@@ -56,7 +56,6 @@ class PoseExtractor():
         cap.release()
         return landmarks
 
-    # TODO this image extraction is not tested yet. test it
     def image_extract(self) -> None:
         # For static images:
         # TODO: check the validation of the image file paths
