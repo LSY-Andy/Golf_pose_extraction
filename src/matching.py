@@ -36,13 +36,13 @@ class Matching():
         self.pose_extractor = PoseExtractor()
         self.standard = self.kp_load(standard_source)
 
-    def match(self, destinate: str):
+    def match(self, destination: str):
         # TODO: this function is to be extended in the future development. For now is just calculating the L2 loss
         '''
         compare the poses in keyframes of standard video with learner's video
         calculate the loss
         '''
-        self.learner = self.kp_load(destinate)
+        self.learner = self.kp_load(destination)
         losses = []
         for keyframe in self.standard:
             loss = float('inf')
