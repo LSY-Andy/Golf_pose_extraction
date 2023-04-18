@@ -2,7 +2,7 @@ from pose_extraction import PoseExtractor
 from typing import List
 import mediapipe as mp
 import numpy as np
-from util import Frame, Frames
+from util.frame_data import Frame, Frames
 mp_pose = mp.solutions.pose
 
 
