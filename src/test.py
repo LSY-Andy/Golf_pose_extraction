@@ -22,9 +22,3 @@ if __name__ == "__main__":
     print(frames[0])
     print(frames[0].get_point_by_position(mp_pose.PoseLandmark.NOSE))
     print(frames[0][0])
-
-
-
-
-
-

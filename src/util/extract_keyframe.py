@@ -3,10 +3,11 @@ import os
 import numpy as np
 import mediapipe as mp
 
-def extract_keyframe(video_path,save_path,frame_interval=0.5):
+
+def extract_keyframe(video_path, save_path, frame_interval=0.5):
     # assert
-    assert(os.path.exists(video_path)), f"{video_path} does not exits!"
-    assert(os.path.exists(save_path)), f"{save_path} does not exits!"
+    assert (os.path.exists(video_path)), f"{video_path} does not exits!"
+    assert (os.path.exists(save_path)), f"{save_path} does not exits!"
 
     # Open the video file
     cap = cv2.VideoCapture(video_path)
@@ -15,7 +16,6 @@ def extract_keyframe(video_path,save_path,frame_interval=0.5):
     if not cap.isOpened():
         print("Error: Could not open video file")
         exit()
-    
 
     # Initialize frame counter
     frame_count = 0
