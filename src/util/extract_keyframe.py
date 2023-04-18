@@ -1,38 +1,43 @@
 import cv2
+import os
+import numpy as np
+import mediapipe as mp
 
-# Open the video file
-video_path = "../data/standard/standard.mp4"
-cap = cv2.VideoCapture(video_path)
 
-# Check if video file opened successfully
-if not cap.isOpened():
-    print("Error: Could not open video file")
-    exit()
+def extract_keyframe(video_path, save_path, frame_interval=0.5):
+    # assert
+    assert (os.path.exists(video_path)), f"{video_path} does not exits!"
+    assert (os.path.exists(save_path)), f"{save_path} does not exits!"
 
-# Set the frame extraction interval (in seconds)
-frame_interval = 0.5
+    # Open the video file
+    cap = cv2.VideoCapture(video_path)
 
-# Initialize frame counter
-frame_count = 0
+    # Check if video file opened successfully
+    if not cap.isOpened():
+        print("Error: Could not open video file")
+        exit()
 
-# Loop through the frames
-while True:
-    # Read a frame from the video
-    ret, frame = cap.read()
+    # Initialize frame counter
+    frame_count = 0
 
-    # Break the loop if we have reached the end of the video
-    if not ret:
-        break
+    # Loop through the frames
+    while True:
+        # Read a frame from the video
+        ret, frame = cap.read()
 
-    # Increment frame counter
-    frame_count += 1
+        # Break the loop if we have reached the end of the video
+        if not ret:
+            break
 
-    # Extract frames at the desired interval
-    if frame_count % int(cap.get(cv2.CAP_PROP_FPS) * frame_interval) == 0:
-        # Save the extracted frame as an image
-        frame_filename = f"../data/frame_{frame_count}.jpg"
-        cv2.imwrite(frame_filename, frame)
-        print(f"Frame {frame_count} saved as {frame_filename}")
+        # Increment frame counter
+        frame_count += 1
 
-# Release the video file
-cap.release()
+        # Extract frames at the desired interval
+        if frame_count % int(cap.get(cv2.CAP_PROP_FPS) * frame_interval) == 0:
+            # Save the extracted frame as an image
+            frame_filename = f"{save_path}/frame_{frame_count}.jpg"
+            cv2.imwrite(frame_filename, frame)
+            print(f"Frame {frame_count} saved as {frame_filename}")
+
+    # Release the video file
+    cap.release()

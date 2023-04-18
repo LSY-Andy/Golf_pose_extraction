@@ -2,6 +2,7 @@ from pose_extraction import PoseExtractor
 from typing import List
 import mediapipe as mp
 import numpy as np
+from util.frame_data import Frame, Frames
 mp_pose = mp.solutions.pose
 
 
@@ -63,7 +64,7 @@ class Matching():
             loss += l2_norm
         return loss
 
-    def kp_load(self, source: str) -> List:
+    def kp_load(self, source: str) -> Frames:
         '''
         get all the keypoints from a source
         '''
@@ -76,8 +77,8 @@ class Matching():
                 kp_frame_list.append(np.array([frame.pose_world_landmarks.landmark[kp].x,
                                                frame.pose_world_landmarks.landmark[kp].y,
                                                frame.pose_world_landmarks.landmark[kp].z]))
-            kp_list.append(kp_frame_list)
-        return kp_list
+            kp_list.append(Frame(kp_frame_list))
+        return Frames(kp_list)
 
 def main():
     src = '../data/standard/'
