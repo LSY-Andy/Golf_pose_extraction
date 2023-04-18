@@ -34,3 +34,9 @@ download link: https://pan.baidu.com/s/15PUYy9mzw7yw-5AaZ8e51g?pwd=vw94 password
     ├── frame_90.jpg
     └── standard.mp4
 ```
+
+## How to run processpy
+
+```bash
+python3 process.py --video_path="../../data/standard/standard.mp4" --save_path="../../data/standard" --frame_interval=0.5
+```
