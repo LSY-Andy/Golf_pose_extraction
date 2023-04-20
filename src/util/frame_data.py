@@ -34,6 +34,11 @@ KEYPOINTS = [
 
 @dataclass
 class Frame:
+    """
+    Frame is a container of points
+    It is implemented in np.array
+    Anyway, point does not have to be a single class
+    """
     point_list: np.ndarray
 
     def get_point_by_position(self, position: str) -> np.ndarray:
@@ -92,6 +97,9 @@ class Frame:
 
 @dataclass
 class Frames:
+    """
+    Frames is a container of frame
+    """
     frame_list: List[Frame]
 
     def __getitem__(self, idx: int) -> Frame:
