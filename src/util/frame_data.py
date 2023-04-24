@@ -94,6 +94,24 @@ class Frame:
         p1 = self.get_point_by_position(pos1)
         p2 = self.get_point_by_position(pos2)
         return np.linalg.norm(p1 - p2)
+    
+    def to_relative_position(self) -> 'Frame':
+        """
+        Move the position of middle_hip of this Frame to the position of (0,0,0),
+        where middle_hip is the middle position of 'LEFT_HIP' and 'RIGHT_HIP'.
+        Then scale the size until 'nose' to 'middle_hip' distance is 1.
+
+        :return: A new frame whose middle_hip position is (0,0,0)
+        """
+        # move middle_hip to (0,0,0)
+        left_hip = self.get_point_by_position('LEFT_HIP')
+        right_hip = self.get_point_by_position('RIGHT_HIP')
+        middle_hip = (left_hip+right_hip)/2
+        centralized_position = self.point_list - middle_hip
+        # scale the size until 'nose' to 'middle_hip' distance is 1
+        nose = self.get_point_by_position('LEFT_HIP')
+        scaled_position = centralized_position/(nose-middle_hip)
+        return Frame(scaled_position)
 
 @dataclass
 class Frames:
