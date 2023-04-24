@@ -1,21 +1,18 @@
-import cv2
 import os
-import numpy as np
-import mediapipe as mp
-
+import cv2
 
 def extract_keyframe(video_path, save_path, frame_interval=0.5):
-    # assert
-    assert (os.path.exists(video_path)), f"{video_path} does not exits!"
-    assert (os.path.exists(save_path)), f"{save_path} does not exits!"
+    assert os.path.isfile(video_path), f"{video_path} does not exist!"
+    assert os.path.isdir(save_path), f"{save_path} does not exist!"
 
     # Open the video file
     cap = cv2.VideoCapture(video_path)
 
     # Check if video file opened successfully
     if not cap.isOpened():
-        print("Error: Could not open video file")
-        exit()
+        raise ValueError("Error: Could not open video file")
+
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
 
     # Initialize frame counter
     frame_count = 0
@@ -33,7 +30,7 @@ def extract_keyframe(video_path, save_path, frame_interval=0.5):
         frame_count += 1
 
         # Extract frames at the desired interval
-        if frame_count % int(cap.get(cv2.CAP_PROP_FPS) * frame_interval) == 0:
+        if frame_count % int(fps * frame_interval) == 0:
             # Save the extracted frame as an image
             frame_filename = f"{save_path}/frame_{frame_count}.jpg"
             cv2.imwrite(frame_filename, frame)
@@ -41,3 +38,6 @@ def extract_keyframe(video_path, save_path, frame_interval=0.5):
 
     # Release the video file
     cap.release()
+
+
+

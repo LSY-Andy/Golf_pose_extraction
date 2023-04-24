@@ -13,9 +13,9 @@ class PoseExtractor():
     An extractor to read from a source and get all the pose estimations
     '''
 
-    def __init__(self, source: str = '') -> None:
+    def __init__(self, source: str = '', display=False) -> None:
         # TODO make it as an argumentation
-        self.display = False
+        self.display = display
         self.set_source(source)
 
     def set_source(self, source: str) -> None:
@@ -128,8 +128,11 @@ class PoseExtractor():
 
 
 def main():
-    # extractor = PoseExtractor('../data/practice_case/practice_1.mp4')
-    extractor = PoseExtractor('../data/standard/standard.mp4')
+    display = True
+    source = '../data/standard/standard.mp4'
+    # source = '../data/practice_case/practice_1.mp4'
+    
+    extractor = PoseExtractor(source ,display)
     result = extractor.extract()
 
 
