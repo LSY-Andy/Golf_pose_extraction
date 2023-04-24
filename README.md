@@ -35,10 +35,20 @@ download link: https://pan.baidu.com/s/15PUYy9mzw7yw-5AaZ8e51g?pwd=vw94 password
     └── standard.mp4
 ```
 
-## How to run process.py
+## How to run main.py
+
+Using config file
+```bash
+python main.py --config_file="config.yaml"
+```
 
 ```bash
-python3 process.py --video_path="../../data/standard/standard.mp4" --save_path="../../data/standard" --frame_interval=0.5
+python main.py \
+--standard_video_path="data/standard/standard.mp4" \
+--practice_video_path="data/practice_case/practice_1.mp4" \
+--standard_path="data/standard/" \
+--frame_interval=0.5 \
+--display
 ```
 
 ## Reference

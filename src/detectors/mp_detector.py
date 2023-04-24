@@ -2,27 +2,19 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import os
-from util.frame_data import Frame, Frames
+from util.frame_data import Frames
+from .base_detector import BaseDetector
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
 
-class PoseExtractor():
+class MediaPipeDetector(BaseDetector):
     '''
     An extractor to read from a source and get all the pose estimations
+    using MediaPipe as Detector
     '''
-
-    def __init__(self, source: str = '', display=False) -> None:
-        # TODO make it as an argumentation
-        self.display = display
-        self.set_source(source)
-
-    def set_source(self, source: str) -> None:
-        # TODO input data type checking
-        self.source = source
-
-    def video_extract(self):
+    def video_extract(self) -> Frames:
         # For webcam input:
         # TODO: check the validation of the path
         cap = cv2.VideoCapture(self.source)
@@ -62,7 +54,7 @@ class PoseExtractor():
         cap.release()
         return frames
 
-    def image_extract(self) -> None:
+    def image_extract(self) -> Frames:
         # For static images:
         # TODO: check the validation of the image file paths
         # TODO: extend the code to more types than jpg
@@ -116,25 +108,3 @@ class PoseExtractor():
                     mp_drawing.plot_landmarks(
                         results.pose_world_landmarks, mp_pose.POSE_CONNECTIONS)
         return keyframes
-
-    def extract(self):
-        # TODO: the return type for both video_extract and image_extract are currently list(list(np.ndarray)) which is quite stupid. Create some new self defined datatypes in util and use them instead
-        ext = self.source.split('.')[-1]
-        if ext == 'mp4':
-            result = self.video_extract()
-        else:
-            result = self.image_extract()
-        return result
-
-
-def main():
-    display = True
-    source = '../data/standard/standard.mp4'
-    # source = '../data/practice_case/practice_1.mp4'
-    
-    extractor = PoseExtractor(source ,display)
-    result = extractor.extract()
-
-
-if __name__ == '__main__':
-    main()

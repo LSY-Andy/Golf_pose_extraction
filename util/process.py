@@ -32,7 +32,7 @@ def extract_keyframe(video_path, save_path, frame_interval=0.5):
         # Extract frames at the desired interval
         if frame_count % int(fps * frame_interval) == 0:
             # Save the extracted frame as an image
-            frame_filename = f"{save_path}/frame_{frame_count}.jpg"
+            frame_filename = f"{save_path}frame_{frame_count}.jpg"
             cv2.imwrite(frame_filename, frame)
             print(f"Frame {frame_count} saved as {frame_filename}")
 
