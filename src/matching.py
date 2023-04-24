@@ -1,4 +1,4 @@
-from pose_extraction import PoseExtractor
+from .pose_extraction import PoseExtractor
 from typing import List
 import mediapipe as mp
 import numpy as np
