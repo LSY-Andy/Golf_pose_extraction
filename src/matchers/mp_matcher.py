@@ -1,4 +1,4 @@
-from .pose_extraction import PoseExtractor
+from ..detectors.mp_detector import MediaPipeDetector
 from typing import List
 import mediapipe as mp
 import numpy as np
@@ -6,7 +6,7 @@ from util.frame_data import Frame, Frames
 mp_pose = mp.solutions.pose
 
 
-class Matching():
+class MediaPipeMatcher():
     def __init__(self, standard_source: str, display: bool = False) -> None:
         self.keypoints = [
             mp_pose.PoseLandmark.NOSE,
@@ -33,7 +33,7 @@ class Matching():
             mp_pose.PoseLandmark.LEFT_FOOT_INDEX,
             mp_pose.PoseLandmark.RIGHT_FOOT_INDEX,
         ]
-        self.pose_extractor = PoseExtractor(display=display)
+        self.pose_extractor = MediaPipeDetector(display=display)
         self.standard = self.kp_load(standard_source)
 
     def match(self, destination: str):
@@ -81,13 +81,3 @@ class Matching():
                                                frame.pose_world_landmarks.landmark[kp].z]))
             kp_list.append(Frame(kp_frame_list))
         return Frames(kp_list)
-
-def main():
-    src = '../data/standard/'
-    dst = '../data/practice_case/practice_1.mp4'
-
-    matcher = Matching(src)
-    matcher.match(dst)
-
-if __name__ == '__main__':
-    main()

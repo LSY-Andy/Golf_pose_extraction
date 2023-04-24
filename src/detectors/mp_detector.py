@@ -8,7 +8,7 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
 
-class PoseExtractor():
+class MediaPipeDetector():
     '''
     An extractor to read from a source and get all the pose estimations
     '''
@@ -22,7 +22,7 @@ class PoseExtractor():
         # TODO input data type checking
         self.source = source
 
-    def video_extract(self):
+    def video_extract(self) -> Frames:
         # For webcam input:
         # TODO: check the validation of the path
         cap = cv2.VideoCapture(self.source)
@@ -62,7 +62,7 @@ class PoseExtractor():
         cap.release()
         return frames
 
-    def image_extract(self) -> None:
+    def image_extract(self) -> Frames:
         # For static images:
         # TODO: check the validation of the image file paths
         # TODO: extend the code to more types than jpg
@@ -125,16 +125,3 @@ class PoseExtractor():
         else:
             result = self.image_extract()
         return result
-
-
-def main():
-    display = True
-    source = '../data/standard/standard.mp4'
-    # source = '../data/practice_case/practice_1.mp4'
-    
-    extractor = PoseExtractor(source ,display)
-    result = extractor.extract()
-
-
-if __name__ == '__main__':
-    main()

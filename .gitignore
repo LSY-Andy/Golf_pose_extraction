@@ -2,6 +2,8 @@ data
 debug
 src/__pycache__
 src/.DS_Store
+src/detectors/__pycache__
+src/matchers/__pycache__
 util/__pycache__
 util/.DS_Store
 .vscode
