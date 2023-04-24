@@ -128,8 +128,11 @@ class PoseExtractor():
 
 
 def main():
-    # extractor = PoseExtractor('../data/practice_case/practice_1.mp4')
-    extractor = PoseExtractor('../data/standard/standard.mp4' ,display=True)
+    display = True
+    source = '../data/standard/standard.mp4'
+    # source = '../data/practice_case/practice_1.mp4'
+    
+    extractor = PoseExtractor(source ,display)
     result = extractor.extract()
 
 
