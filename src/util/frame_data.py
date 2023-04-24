@@ -170,3 +170,6 @@ class Frames:
 
         avg_points = np.mean([f.point_list for f in self.frame_list], axis=0)
         return Frame(avg_points)
+    
+    def to_relative_position(self) -> 'Frames':
+        return Frames([frame.to_relative_position() for frame in self.frame_list])
