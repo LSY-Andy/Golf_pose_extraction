@@ -1,7 +1,7 @@
 data
 debug
 src/__pycache__
-src/util/__pycache__
-src/util/.DS_Store
 src/.DS_Store
+util/__pycache__
+util/.DS_Store
 .vscode

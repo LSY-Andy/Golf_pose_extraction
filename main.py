@@ -38,7 +38,7 @@ def main() -> None:
         args = parser_.parse_args()
 
     extract_keyframe(args.standard_video_path, args.standard_path, args.frame_interval)
-    matcher = Matching(args.standard_path)
+    matcher = Matching(args.standard_path, args.display)
     matcher.match(args.practice_video_path)
 
 if __name__ == '__main__':

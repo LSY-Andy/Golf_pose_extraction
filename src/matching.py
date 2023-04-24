@@ -7,7 +7,7 @@ mp_pose = mp.solutions.pose
 
 
 class Matching():
-    def __init__(self, standard_source: str) -> None:
+    def __init__(self, standard_source: str, display: bool = False) -> None:
         self.keypoints = [
             mp_pose.PoseLandmark.NOSE,
             mp_pose.PoseLandmark.LEFT_SHOULDER,
@@ -33,7 +33,7 @@ class Matching():
             mp_pose.PoseLandmark.LEFT_FOOT_INDEX,
             mp_pose.PoseLandmark.RIGHT_FOOT_INDEX,
         ]
-        self.pose_extractor = PoseExtractor()
+        self.pose_extractor = PoseExtractor(display=display)
         self.standard = self.kp_load(standard_source)
 
     def match(self, destination: str):
