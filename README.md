@@ -47,7 +47,8 @@ python main.py \
 --standard_video_path="data/standard/standard.mp4" \
 --practice_video_path="data/practice_case/practice_1.mp4" \
 --standard_path="data/standard/" \
---frame_interval=0.5
+--frame_interval=0.5 \
+--display
 ```
 
 ## Reference

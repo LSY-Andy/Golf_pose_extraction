@@ -45,8 +45,10 @@ class Matching():
         self.learner = self.kp_load(destination)
         losses = []
         for keyframe in self.standard:
+            keyframe = keyframe.to_relative_position()
             loss = float('inf')
             for frame in self.learner:
+                frame = frame.to_relative_position()
                 loss = min(loss, self.single_match(keyframe, frame))
             losses.append(loss)
         for idx in range(len(losses)):
