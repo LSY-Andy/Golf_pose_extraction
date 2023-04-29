@@ -14,6 +14,9 @@ class MediaPipeDetector(BaseDetector):
     An extractor to read from a source and get all the pose estimations
     using MediaPipe as Detector
     '''
+    def __init__(self, source: str = '', display=False) -> None:
+        super().__init__(source, display)
+        
     def video_extract(self) -> Frames:
         # For webcam input:
         # TODO: check the validation of the path

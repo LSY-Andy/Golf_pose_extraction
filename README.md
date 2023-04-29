@@ -1,16 +1,34 @@
+- [golf](#golf)
+  - [Dependency](#dependency)
+  - [Algo](#algo)
+    - [Detector](#detector)
+    - [Matcher](#matcher)
+  - [Data](#data)
+  - [Usage](#usage)
+    - [Setup](#setup)
+    - [Run](#run)
+  - [Reference](#reference)
+
 # golf
 
 ## Dependency
 Python == 3.10
 
 ## Algo
-keypoints:
+
+### Detector
+
+**Mediapipe**
+
+- keypoints:
 
 ![keypoints](images/keypoints.png)
 
-## TODO list
-- [x] demo develop for pose estimation
-- [ ] demo develop for matching
+**YOLOv8**
+
+![coco_keyponts](images/coco_keypoints.png)
+
+### Matcher
 
 ## Data
 
@@ -35,7 +53,23 @@ download link: https://pan.baidu.com/s/15PUYy9mzw7yw-5AaZ8e51g?pwd=vw94 password
     └── standard.mp4
 ```
 
-## How to run main.py
+## Usage
+
+### Setup
+
+Create a new conda environment
+
+```bash
+conda create -n golf python=3.10
+```
+
+Enter the environment and install the dependencies
+```bash
+conda activate golf
+pip install -r requirements.txt
+```
+
+### Run
 
 Using config file
 ```bash
@@ -58,3 +92,36 @@ python main.py \
 [Mediapipe APIs](https://github.com/google/mediapipe/blob/master/docs/solutions/pose.md#solution-apis)
 
 [OpenCV general documentations](https://docs.opencv.org/4.x/)
+
+[yolov8](https://github.com/ultralytics/ultralytics)
+
+```
+golf-main-430
+├─ .gitignore
+├─ config.yaml
+├─ images
+│  ├─ coco_keypoints.png
+│  └─ keypoints.png
+├─ main.py
+├─ README.md
+├─ requirements.txt
+├─ src
+│  ├─ detectors
+│  │  ├─ base_detector.py
+│  │  ├─ detector_factory.py
+│  │  ├─ mp_detector.py
+│  │  └─ yolo_detector.py
+│  ├─ matchers
+│  │  ├─ base_matcher.py
+│  │  ├─ matcher_factory.py
+│  │  ├─ mp_matcher.py
+│  │  └─ yolo_matcher.py
+│  └─ visualize
+│     ├─ base_visualization
+│     └─ visual_factory.py
+├─ test.py
+└─ util
+   ├─ process.py
+   └─ __init__.py
+
+```

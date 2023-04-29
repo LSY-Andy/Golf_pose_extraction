@@ -1,6 +1,7 @@
 import argparse
 from util.process import extract_keyframe
 from src.matchers.matcher_factory import matcher_factory
+from src.visualize.base_visualization import generate_video
 import yaml
 
 
@@ -40,7 +41,9 @@ def main() -> None:
 
     extract_keyframe(args.standard_video_path, args.standard_path, args.frame_interval)
     matcher = matcher_factory[args.backbone](args.standard_path, args.display)
-    matcher.match(args.practice_video_path)
+    match_learner = matcher.match(args.practice_video_path)
+    generate_video(args.practice_video_path,match_learner)
+    
 
 if __name__ == '__main__':
     main()
